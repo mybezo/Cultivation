@@ -2088,7 +2088,7 @@ public final class CultivationStacks {
 
     public static final SlimefunItemStack GARDEN_CLOCHE = Theme.themedSlimefunItemStack(
         "CLT_GARDEN_CLOCHE",
-        Material.GLASS,
+        Material.GREEN_TERRACOTTA,
         CultivationThemes.MACHINE,
         "园艺玻璃罩",
         "自动种植植物。",

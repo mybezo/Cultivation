@@ -97,50 +97,6 @@ public final class DisplayGroupGenerators {
         return displayGroup;
     }
 
-    public static DisplayGroup generateCloche(@Nonnull Location location) {
-        final DisplayGroup displayGroup = new DisplayGroup(location, 1.5f, 0.5f);
-        displayGroup.addDisplay(
-            "cloche_base",
-            new ItemDisplayBuilder()
-                .setGroupParentOffset(new Vector(0, 0.5, 0))
-                .setItemStack(new ItemStack(Material.GREEN_TERRACOTTA))
-                .setTransformation(Transformations.CLOCHE_BASE.getTransformation())
-                .build(displayGroup)
-        );
-        displayGroup.addDisplay(
-            "cloche_glass",
-            new ItemDisplayBuilder()
-                .setGroupParentOffset(new Vector(0, 1.25, 0))
-                .setItemStack(new ItemStack(Material.GLASS))
-                .setTransformation(Transformations.CLOCHE_GLASS.getTransformation())
-                .build(displayGroup)
-        );
-        displayGroup.addDisplay(
-            "cloche_dirt",
-            new ItemDisplayBuilder()
-                .setGroupParentOffset(new Vector(0, 0.85, 0))
-                .setItemStack(new ItemStack(Material.DIRT))
-                .setTransformation(Transformations.CLOCHE_DIRT.getTransformation())
-                .build(displayGroup)
-        );
-        return displayGroup;
-    }
-
-    public static void addPlantToCloche(@Nonnull DisplayGroup displayGroup) {
-        displayGroup.addDisplay(
-            "plant",
-            new ItemDisplayBuilder()
-                .setGroupParentOffset(new Vector(0, 1.25, 0))
-                .setTransformation(Transformations.CLOCHE_GLASS.getTransformation())
-                .setItemStack(new ItemStack(Material.SMALL_DRIPLEAF))
-                .build(displayGroup)
-        );
-    }
-
-    public static void removePlantFromCloche(@Nonnull DisplayGroup displayGroup) {
-        displayGroup.killDisplay("plant");
-    }
-
     public static DisplayGroup generatePlant(@Nonnull Location location) {
         final DisplayGroup displayGroup = new DisplayGroup(location);
         displayGroup.addDisplay(

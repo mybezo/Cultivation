@@ -34,18 +34,6 @@ public enum Transformations {
                           .firstRotation(RotationFace.SIDE, 15)
                            .build()
     ),
-    CLOCHE_BASE(new TransformationBuilder()
-                    .scale(0.5f, 1f, 0.5f)
-                    .build()
-    ),
-    CLOCHE_GLASS(new TransformationBuilder()
-                     .scale(0.5f, 0.5f, 0.5f)
-                     .build()
-    ),
-    CLOCHE_DIRT(new TransformationBuilder()
-                    .scale(0.4f, 0.4f, 0.4f)
-                    .build()
-    ),
     COUNTER_BODY(new TransformationBuilder()
                      .scale(0.9f, 0.8f, 0.9f)
                      .build()
