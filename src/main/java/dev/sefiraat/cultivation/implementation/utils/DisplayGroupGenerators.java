@@ -103,7 +103,7 @@ public final class DisplayGroupGenerators {
             "cloche_base",
             new ItemDisplayBuilder()
                 .setGroupParentOffset(new Vector(0, 0.5, 0))
-                .setItemStack(new ItemStack(Material.STRIPPED_MANGROVE_LOG))
+                .setItemStack(new ItemStack(Material.GREEN_TERRACOTTA))
                 .setTransformation(Transformations.CLOCHE_BASE.getTransformation())
                 .build(displayGroup)
         );
