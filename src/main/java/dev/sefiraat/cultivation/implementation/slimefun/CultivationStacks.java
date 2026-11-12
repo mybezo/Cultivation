@@ -2083,6 +2083,108 @@ public final class CultivationStacks {
 
     // endregion
 
+    // region Expansion Machines
+
+    public static final SlimefunItemStack GENETIC_RECOMBINATOR = Theme.themedSlimefunItemStack(
+        "CLT_GENETIC_RECOMBINATOR",
+        Material.PURPLE_STAINED_GLASS,
+        CultivationThemes.MACHINE,
+        "基因重组机",
+        "利用高压电流诱导种子发生基因突变，",
+        "人为提升其属性。",
+        "",
+        Theme.PASSIVE.apply("放入植物/灌木，可额外放入基因花蜜"),
+        Theme.PASSIVE.apply("以连续突变直至属性满级。"),
+        "",
+        Theme.CLICK_INFO.asTitle("每粘液刻消耗电力", 500)
+    );
+
+    public static final SlimefunItemStack PROPAGATION = Theme.themedSlimefunItemStack(
+        "CLT_PROPAGATION",
+        Material.STRIPPED_MANGROVE_LOG,
+        CultivationThemes.MACHINE,
+        "植物繁育机",
+        "自动将两株植物杂交繁育。",
+        "每次繁育消耗1个基因花蜜。",
+        "",
+        Theme.CLICK_INFO.asTitle("每粘液刻消耗电力", 750),
+        Theme.CLICK_INFO.asTitle("速度", "取决于植物强度"),
+        Theme.WARNING.asTitle("注意", "不会解锁植物图鉴")
+    );
+
+    public static final SlimefunItemStack ANDROID_FINISHING = Theme.themedSlimefunItemStack(
+        "CLT_ANDROID_FINISHING",
+        Material.PINK_GLAZED_TERRACOTTA,
+        CultivationThemes.MACHINE,
+        "机器人厨房：精加工",
+        "自动合成精加工台的复杂配方。",
+        "需要放入机器人厨师。",
+        Theme.PASSIVE.apply("每种材料至少保留2个，"),
+        Theme.PASSIVE.apply("最后1个作为配方模板保留。"),
+        "",
+        Theme.CLICK_INFO.asTitle("每粘液刻消耗电力", 200)
+    );
+
+    // endregion
+
+    // region Expansion Resources
+
+    public static final SlimefunItemStack GENETIC_NECTAR = Theme.themedSlimefunItemStack(
+        "CLT_GENETIC_NECTAR",
+        Material.HONEY_BOTTLE,
+        CultivationThemes.CRAFTING,
+        "基因花蜜",
+        "用于植物基因工程的特殊营养液。",
+        "基因重组机与植物繁育机所需的材料。"
+    );
+
+    public static final SlimefunItemStack SILICONE = Theme.themedSlimefunItemStack(
+        "CLT_SILICONE",
+        Material.CLAY_BALL,
+        CultivationThemes.CRAFTING,
+        "硅胶",
+        "硅胶可不是硅！"
+    );
+
+    public static final SlimefunItemStack SPATULA = Theme.themedSlimefunItemStack(
+        "CLT_SPATULA",
+        Material.IRON_SHOVEL,
+        CultivationThemes.CRAFTING,
+        "锅铲",
+        "厨师会喜欢这个的！"
+    );
+
+    public static final SlimefunItemStack CHEF_HAT = Theme.themedSlimefunItemStack(
+        "CLT_CHEF_HAT",
+        Material.IRON_HELMET,
+        CultivationThemes.CRAFTING,
+        "厨师帽",
+        "厨师会喜欢这个的！"
+    );
+
+    public static final SlimefunItemStack ANDROID_CHEF = Theme.themedSlimefunItemStack(
+        "CLT_ANDROID_CHEF",
+        Skins.ANDROID_CHEF.getPlayerHead(),
+        CultivationThemes.CRAFTING,
+        "机器人厨师",
+        "用于自动化厨房加工的机器人。",
+        "放入机器人厨房机器中使用。"
+    );
+
+    public static final SlimefunItemStack RECORD_OF_BOTANIST = Theme.themedSlimefunItemStack(
+        "CLT_RECORD_OF_BOTANIST",
+        Material.ENCHANTED_BOOK,
+        CultivationThemes.TOOL,
+        "植物学家手记",
+        "一本详尽的植物百科全书，",
+        "记载了所有植物及其繁育方法。",
+        "",
+        Theme.CLICK_INFO.asTitle("右键点击", "解锁全部植物图鉴"),
+        Theme.WARNING.apply("使用后消耗")
+    );
+
+    // endregion
+
     // region Machines
 
     public static final SlimefunItemStack GARDEN_CLOCHE = Theme.themedSlimefunItemStack(
