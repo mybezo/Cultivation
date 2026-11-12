@@ -19,7 +19,6 @@ import dev.sefiraat.cultivation.api.slimefun.plant.PlantTheme;
 import dev.sefiraat.cultivation.api.utils.LevelType;
 import dev.sefiraat.cultivation.api.utils.StatisticUtils;
 import dev.sefiraat.cultivation.implementation.utils.Keys;
-import dev.sefiraat.sefilib.entity.display.DisplayInteractable;
 import dev.sefiraat.sefilib.misc.ParticleUtils;
 import dev.sefiraat.sefilib.string.Theme;
 import dev.sefiraat.sefilib.world.LocationUtils;
@@ -58,8 +57,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * This class is used to define a CultivationPlant that will grow as a {@link CultivationFlora}
  */
 public abstract class CultivationPlant extends CultivationFloraItem<CultivationPlant>
-    implements CultivationFlora, CultivationLevelProfileHolder, CultivationCroppable, CultivationPlantHolder,
-               DisplayInteractable {
+    implements CultivationFlora, CultivationLevelProfileHolder, CultivationCroppable, CultivationPlantHolder {
 
     private static final String WIKI_PAGE = "plants";
 

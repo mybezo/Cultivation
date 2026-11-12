@@ -8,7 +8,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.papermc.lib.PaperLib;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
@@ -43,7 +42,6 @@ public class NothingPlant extends CultivationPlant {
             }
         } else if (growthStage == 1) {
             addDisplayPlant(block.getLocation());
-            block.setType(Material.AIR);
         }
         StorageCacheUtils.setData(block.getLocation(), Keys.FLORA_GROWTH_STAGE, String.valueOf(growthStage));
     }

@@ -15,9 +15,11 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockFertilizeEvent;
 import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -102,17 +104,51 @@ public class CustomPlacementListener implements Listener {
         }
     }
 
+    /**
+     * Grown plants and bushes are {@link Material#WARPED_ROOTS} blocks, which would normally pop off
+     * when a neighbouring block updates. Keep them in place.
+     */
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onFloraPhysics(@Nonnull BlockPhysicsEvent event) {
+        Block block = event.getBlock();
+        if (block.getType() == Material.WARPED_ROOTS && isFlora(StorageCacheUtils.getSfItem(block.getLocation()))) {
+            event.setCancelled(true);
+        }
+    }
+
+    /**
+     * When the block under a grown plant or bush is broken, the plant can no longer stand.
+     * Remove it properly (dropping its item) instead of leaving a floating block.
+     */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onSupportBroken(@Nonnull BlockBreakEvent event) {
+        Block above = event.getBlock().getRelative(BlockFace.UP);
+        if (above.getType() != Material.WARPED_ROOTS) {
+            return;
+        }
+        Location location = above.getLocation();
+        SlimefunItem slimefunItem = StorageCacheUtils.getSfItem(location);
+        if (isFlora(slimefunItem)) {
+            unsafelyKillItem(location, slimefunItem);
+        }
+    }
+
+    private boolean isFlora(@Nullable SlimefunItem slimefunItem) {
+        return slimefunItem instanceof CultivationPlant || slimefunItem instanceof CultivationBush;
+    }
+
     private void unsafelyKillItem(@Nonnull Location location, @Nullable SlimefunItem slimefunItem) {
         if (slimefunItem instanceof CultivationPlant plant) {
             location.getWorld().dropItem(location, plant.getDroppedItemStack(location));
             plant.removeCropped(location);
-            plant.removePlantDisplayGroup(location);
+            plant.removePlant(location);
             Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
             location.getBlock().setType(Material.AIR);
         } else if (slimefunItem instanceof CultivationBush bush) {
             location.getWorld().dropItem(location, bush.getItem().clone());
-            bush.removeBushDisplayGroup(location);
+            bush.removeBush(location);
             Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
+            location.getBlock().setType(Material.AIR);
         }
     }
 

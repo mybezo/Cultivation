@@ -2,11 +2,7 @@ package dev.sefiraat.cultivation.implementation.slimefun.tools;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import dev.sefiraat.cultivation.api.datatypes.instances.FloraLevelProfile;
-import dev.sefiraat.cultivation.api.interfaces.CultivationBushHolder;
 import dev.sefiraat.cultivation.api.interfaces.CultivationLevelProfileHolder;
-import dev.sefiraat.cultivation.api.interfaces.CultivationPlantHolder;
-import dev.sefiraat.cultivation.implementation.utils.DisplayGroupGenerators;
-import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import dev.sefiraat.sefilib.string.Theme;
 import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -16,13 +12,11 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public class PlantAnalyser extends SimpleSlimefunItem<ItemUseHandler> implements NotPlaceable {
@@ -50,11 +44,7 @@ public class PlantAnalyser extends SimpleSlimefunItem<ItemUseHandler> implements
             return;
         }
 
-        if (playerRightClickEvent.getPlayer().isSneaking()) {
-            applyName(item, block);
-        } else {
-            showStats(playerRightClickEvent, item, block);
-        }
+        showStats(playerRightClickEvent, item, block);
     }
 
     @ParametersAreNonnullByDefault
@@ -69,33 +59,5 @@ public class PlantAnalyser extends SimpleSlimefunItem<ItemUseHandler> implements
             player.sendMessage(Theme.CLICK_INFO.asTitle("速率", profile.getSpeed()));
             player.sendMessage(Theme.CLICK_INFO.asTitle("强度", profile.getStrength()));
         }
-    }
-
-    private static void applyName(@Nonnull SlimefunItem item, @Nonnull Block block) {
-        DisplayGroup group = getGroup(item, block.getLocation());
-        if (group == null) {
-            return;
-        }
-        String name = item.getItemName();
-        String[] split = name.split(":");
-        if (split.length > 1) {
-            name = split[1].trim();
-        }
-
-        if (DisplayGroupGenerators.hasName(group)) {
-            DisplayGroupGenerators.removeNameFromGroup(group);
-        } else {
-            DisplayGroupGenerators.addNameToGroup(group, name);
-        }
-    }
-
-    @Nullable
-    private static DisplayGroup getGroup(@Nonnull SlimefunItem item, @Nonnull Location location) {
-        if (item instanceof CultivationPlantHolder holder) {
-            return holder.getPlantDisplayGroup(location);
-        } else if (item instanceof CultivationBushHolder holder) {
-            return holder.getBushDisplayGroup(location);
-        }
-        return null;
     }
 }

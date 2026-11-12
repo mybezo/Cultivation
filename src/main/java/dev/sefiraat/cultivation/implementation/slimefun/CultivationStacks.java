@@ -2057,8 +2057,7 @@ public final class CultivationStacks {
             Theme.CLICK_INFO,
             "右键点击",
             "查看植物种类与生长情况。"
-        ),
-        Theme.applyThemeAsTitle(Theme.CLICK_INFO, "潜行+右键点击", "显示植物/灌木的名称。")
+        )
     );
 
     public static final SlimefunItemStack RECIPE_UNLOCK = Theme.themedSlimefunItemStack(

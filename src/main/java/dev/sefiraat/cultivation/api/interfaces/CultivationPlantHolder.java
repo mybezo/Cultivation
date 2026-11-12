@@ -2,20 +2,19 @@ package dev.sefiraat.cultivation.api.interfaces;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import dev.sefiraat.cultivation.implementation.utils.DisplayGroupGenerators;
-import dev.sefiraat.sefilib.entity.display.DisplayGroup;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.UUID;
 
+/**
+ * A grown plant is shown as a real {@link Material#WARPED_ROOTS} block instead of display entities.
+ */
 public interface CultivationPlantHolder {
 
     String PLANT = "plant_display_present";
-    String GROUP_PARENT = "plant_display_group";
+    Material PLANT_MATERIAL = Material.WARPED_ROOTS;
 
     default boolean hasDisplayPlant(@Nonnull Block block) {
         return hasDisplayPlant(block.getLocation());
@@ -32,53 +31,14 @@ public interface CultivationPlantHolder {
     }
 
     default void removePlant(@Nonnull Location location) {
-        removePlantDisplayGroup(location);
         StorageCacheUtils.removeData(location, PLANT);
-        StorageCacheUtils.removeData(location, GROUP_PARENT);
     }
 
     default void addDisplayPlant(@Nonnull Location location) {
-        DisplayGroup displayGroup = DisplayGroupGenerators.generatePlant(location.clone().add(0.5, 0, 0.5));
+        Block block = location.getBlock();
+        if (block.getType() != PLANT_MATERIAL) {
+            block.setType(PLANT_MATERIAL, false);
+        }
         StorageCacheUtils.setData(location, PLANT, "true");
-        StorageCacheUtils.setData(location, GROUP_PARENT, displayGroup.getParentUUID().toString());
-    }
-
-    default void addItemsToDisplay(@Nonnull Location location, @Nonnull ItemStack itemStack) {
-        if (hasDisplayPlant(location)) {
-            DisplayGroup group = getPlantDisplayGroup(location);
-            DisplayGroupGenerators.addItemsToPlant(group, itemStack);
-        }
-    }
-
-    default void removeItems(@Nonnull Location location) {
-        if (hasDisplayPlant(location)) {
-            DisplayGroup group = getPlantDisplayGroup(location);
-            DisplayGroupGenerators.removeItemsFromPlant(group);
-        }
-    }
-
-    @Nullable
-    default UUID getPlantDisplayGroupUUID(@Nonnull Location location) {
-        String uuid = StorageCacheUtils.getData(location, GROUP_PARENT);
-        if (uuid == null) {
-            return null;
-        }
-        return UUID.fromString(uuid);
-    }
-
-    @Nullable
-    default DisplayGroup getPlantDisplayGroup(@Nonnull Location location) {
-        UUID uuid = getPlantDisplayGroupUUID(location);
-        if (uuid == null) {
-            return null;
-        }
-        return DisplayGroup.fromUUID(uuid);
-    }
-
-    default void removePlantDisplayGroup(@Nonnull Location location) {
-        DisplayGroup displayGroup = getPlantDisplayGroup(location);
-        if (displayGroup != null) {
-            displayGroup.remove();
-        }
     }
 }
