@@ -2118,7 +2118,7 @@ public final class CultivationStacks {
 
     public static final SlimefunItemStack PROPAGATION = Theme.themedSlimefunItemStack(
         "CLT_PROPAGATION",
-        Material.STRIPPED_MANGROVE_LOG,
+        Material.PINK_CONCRETE,
         CultivationThemes.MACHINE,
         "Propagation",
         "Automatically breeds two plants together.",
