@@ -42,6 +42,8 @@ public class NothingPlant extends CultivationPlant {
             }
         } else if (growthStage == 1) {
             addDisplayPlant(block.getLocation());
+        } else if (growthStage == 2) {
+            setDisplayPlant(block.getLocation(), true);
         }
         StorageCacheUtils.setData(block.getLocation(), Keys.FLORA_GROWTH_STAGE, String.valueOf(growthStage));
     }

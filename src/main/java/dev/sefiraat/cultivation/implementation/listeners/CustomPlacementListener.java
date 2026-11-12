@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import dev.sefiraat.cultivation.api.interfaces.CustomPlacementBlock;
 import dev.sefiraat.cultivation.api.slimefun.items.bushes.CultivationBush;
 import dev.sefiraat.cultivation.api.slimefun.items.plants.CultivationPlant;
+import dev.sefiraat.cultivation.implementation.utils.FloraBlocks;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Location;
@@ -12,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.Directional;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -23,8 +25,10 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.block.EntityBlockFormEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -77,6 +81,36 @@ public class CustomPlacementListener implements Listener {
         unsafelyKillItem(location, StorageCacheUtils.getSfItem(location));
     }
     
+    /**
+     * Grown plants and bushes are azaleas, which bone meal would grow into a tree. Block that,
+     * from players and dispensers alike.
+     */
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+    public void onFloraFertilize(@Nonnull BlockFertilizeEvent event) {
+        Block block = event.getBlock();
+        if (isFloraBlock(block)) {
+            event.setCancelled(true);
+        }
+    }
+
+    /**
+     * Stops bone meal from being used up on a plant or bush. Only the item use is denied, so
+     * right-clicking still harvests through Slimefun.
+     */
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onBoneMealFlora(@Nonnull PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK
+            || event.getItem() == null
+            || event.getItem().getType() != Material.BONE_MEAL
+        ) {
+            return;
+        }
+        Block block = event.getClickedBlock();
+        if (block != null && isFloraBlock(block)) {
+            event.setUseItemInHand(Event.Result.DENY);
+        }
+    }
+
     @EventHandler
     public void onBoneMeal(@Nonnull BlockFertilizeEvent event) {
         for (BlockState blockState : event.getBlocks()) {
@@ -105,13 +139,12 @@ public class CustomPlacementListener implements Listener {
     }
 
     /**
-     * Grown plants and bushes are {@link Material#WARPED_ROOTS} blocks, which would normally pop off
+     * Grown plants and bushes are azalea blocks ({@link FloraBlocks}), which would normally pop off
      * when a neighbouring block updates. Keep them in place.
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onFloraPhysics(@Nonnull BlockPhysicsEvent event) {
-        Block block = event.getBlock();
-        if (block.getType() == Material.WARPED_ROOTS && isFlora(StorageCacheUtils.getSfItem(block.getLocation()))) {
+        if (isFloraBlock(event.getBlock())) {
             event.setCancelled(true);
         }
     }
@@ -123,7 +156,7 @@ public class CustomPlacementListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSupportBroken(@Nonnull BlockBreakEvent event) {
         Block above = event.getBlock().getRelative(BlockFace.UP);
-        if (above.getType() != Material.WARPED_ROOTS) {
+        if (!FloraBlocks.isFloraMaterial(above.getType())) {
             return;
         }
         Location location = above.getLocation();
@@ -131,6 +164,10 @@ public class CustomPlacementListener implements Listener {
         if (isFlora(slimefunItem)) {
             unsafelyKillItem(location, slimefunItem);
         }
+    }
+
+    private boolean isFloraBlock(@Nonnull Block block) {
+        return FloraBlocks.isFloraMaterial(block.getType()) && isFlora(StorageCacheUtils.getSfItem(block.getLocation()));
     }
 
     private boolean isFlora(@Nullable SlimefunItem slimefunItem) {

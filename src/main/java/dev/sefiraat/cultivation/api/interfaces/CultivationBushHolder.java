@@ -2,19 +2,18 @@ package dev.sefiraat.cultivation.api.interfaces;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import dev.sefiraat.cultivation.implementation.utils.FloraBlocks;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import javax.annotation.Nonnull;
 
 /**
- * A bush is shown as a real {@link Material#WARPED_ROOTS} block instead of display entities.
+ * A bush is shown as a real azalea block instead of display entities, see {@link FloraBlocks}.
  */
 public interface CultivationBushHolder {
 
     String BUSH = "bush_display_present";
-    Material BUSH_MATERIAL = Material.WARPED_ROOTS;
 
     default boolean hasDisplayBush(@Nonnull Block block) {
         return hasDisplayBush(block.getLocation());
@@ -35,10 +34,14 @@ public interface CultivationBushHolder {
     }
 
     default void addDisplayBush(@Nonnull Location location) {
-        Block block = location.getBlock();
-        if (block.getType() != BUSH_MATERIAL) {
-            block.setType(BUSH_MATERIAL, false);
-        }
+        setDisplayBush(location, false);
+    }
+
+    /**
+     * @param mature True shows the bush as ready to harvest (flowering)
+     */
+    default void setDisplayBush(@Nonnull Location location, boolean mature) {
+        FloraBlocks.show(location, mature);
         StorageCacheUtils.setData(location, BUSH, "true");
     }
 }

@@ -98,6 +98,7 @@ public class HarvestableBush extends CultivationBush implements CultivationHarve
     @Override
     public void updateGrowthStage(@NotNull Block block, int growthStage) {
         // todo Fuck numbers
+        setDisplayBush(block.getLocation(), growthStage >= getMaxGrowthStages());
         if (growthStage == 3) {
             ItemStack itemStack = getRandomItem();
             if (itemStack != null) {
