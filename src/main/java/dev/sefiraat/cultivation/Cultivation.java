@@ -52,16 +52,15 @@ public class Cultivation extends JavaPlugin implements SlimefunAddon {
         instance = this;
 
         if (!getServer().getPluginManager().isPluginEnabled("GuizhanLibPlugin")) {
-            getLogger().log(Level.SEVERE, "本插件需要 鬼斩前置库插件(GuizhanLibPlugin) 才能运行!");
-            getLogger().log(Level.SEVERE, "从此处下载: https://50l.cc/gzlib");
+            getLogger().log(Level.SEVERE, "This plugin requires GuizhanLibPlugin to run!");
+            getLogger().log(Level.SEVERE, "Download it here: https://50l.cc/gzlib");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
         getLogger().info("########################################");
-        getLogger().info("         Cultivation 农耕工艺            ");
+        getLogger().info("              Cultivation               ");
         getLogger().info("        By Sefiraat and J3fftw         ");
-        getLogger().info("         粘液科技简中汉化组 汉化           ");
         getLogger().info("########################################");
 
         saveDefaultConfig();

@@ -11,41 +11,6 @@ import javax.annotation.Nonnull;
 public enum Transformations {
 
     DEFAULT_TRANSFORMATION(new TransformationBuilder().build()),
-    STICK_POINT_UPRIGHT(new TransformationBuilder()
-                            .firstRotation(RotationFace.FRONT, 45)
-                            .build()
-    ),
-    STICK_FLAT_X_ALIGN(new TransformationBuilder()
-                           .firstRotation(RotationFace.TOP, 135)
-                           .secondRotation(RotationFace.SIDE, 90)
-                           .build()
-    ),
-    STICK_FLAT_Z_ALIGN(new TransformationBuilder()
-                           .firstRotation(RotationFace.TOP, 45)
-                           .secondRotation(RotationFace.SIDE, 90)
-                           .build()
-    ),
-    PLANT_HANGING_DROP(new TransformationBuilder()
-                           .scale(0.2f, 0.2f, 0.2f)
-                           .build()
-    ),
-    BUSH_HANGING_DROP(new TransformationBuilder()
-                           .scale(0.31f, 0.31f, 0.31f)
-                          .firstRotation(RotationFace.SIDE, 15)
-                           .build()
-    ),
-    CLOCHE_BASE(new TransformationBuilder()
-                    .scale(0.5f, 1f, 0.5f)
-                    .build()
-    ),
-    CLOCHE_GLASS(new TransformationBuilder()
-                     .scale(0.5f, 0.5f, 0.5f)
-                     .build()
-    ),
-    CLOCHE_DIRT(new TransformationBuilder()
-                    .scale(0.4f, 0.4f, 0.4f)
-                    .build()
-    ),
     COUNTER_BODY(new TransformationBuilder()
                      .scale(0.9f, 0.8f, 0.9f)
                      .build()

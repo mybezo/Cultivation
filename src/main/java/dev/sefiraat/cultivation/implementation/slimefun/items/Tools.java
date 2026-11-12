@@ -6,6 +6,7 @@ import dev.sefiraat.cultivation.implementation.slimefun.CultivationStacks;
 import dev.sefiraat.cultivation.implementation.slimefun.tools.CropSticks;
 import dev.sefiraat.cultivation.implementation.slimefun.tools.PlantAnalyser;
 import dev.sefiraat.cultivation.implementation.slimefun.tools.RecipeUnlock;
+import dev.sefiraat.cultivation.implementation.slimefun.tools.RecordOfBotanist;
 import dev.sefiraat.cultivation.implementation.slimefun.tools.SeedPack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
@@ -52,6 +53,17 @@ public final class Tools {
                 new ItemStack(Material.LEATHER), new ItemStack(Material.STRING), new ItemStack(Material.LEATHER),
                 new ItemStack(Material.LEATHER), null, new ItemStack(Material.LEATHER),
                 new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER), new ItemStack(Material.LEATHER)
+            }
+        ).register(addon);
+
+        new RecordOfBotanist(
+            CultivationGroups.TOOLS,
+            CultivationStacks.RECORD_OF_BOTANIST,
+            RecipeType.ENHANCED_CRAFTING_TABLE,
+            new ItemStack[]{
+                CultivationStacks.PLANT_DARKNESS, CultivationStacks.PLANT_LIGHT, CultivationStacks.PLANT_EARTH,
+                CultivationStacks.PLANT_WATER, SlimefunItems.MAGICAL_BOOK_COVER, CultivationStacks.PLANT_FIRE,
+                CultivationStacks.PLANT_AIR, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING, CultivationStacks.PLANT_POWER
             }
         ).register(addon);
 

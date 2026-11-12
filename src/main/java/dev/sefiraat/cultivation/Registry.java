@@ -63,28 +63,31 @@ public class Registry {
         this.registeredByProducts.add(byProduct);
     }
 
+    /**
+     * Some parent combinations can produce more than one child (e.g. Coal + Earth gives Raw Iron or Raw Copper).
+     * The matching pairs are tested in a random order each time, so no child is favoured just because it was
+     * registered first.
+     */
     @Nonnull
     public BreedResult getBreedResult(@Nonnull String seed1, @Nonnull String seed2) {
-        int matches = 0;
-        for (BreedingPair pair : plantBreedingPairs) {
+        List<BreedingPair> matchingPairs = getMatchingBreedingPairs(seed1, seed2);
+        Collections.shuffle(matchingPairs);
+        for (BreedingPair pair : matchingPairs) {
             BreedResultType result = pair.testBreed(seed1, seed2);
-            if (result != BreedResultType.NOT_PAIR) {
-                if (result != BreedResultType.FAIL) {
-                    return new BreedResult(pair, result);
-                } else {
-                    matches++;
-                }
+            if (result != BreedResultType.FAIL) {
+                return new BreedResult(pair, result);
             }
         }
-        if (matches == 0) {
-            if (seed1.equals(seed2)) {
-                return new BreedResult(plantBreedingPairs.get(0), BreedResultType.SPREAD_MUTATE);
-            } else {
-                return new BreedResult(plantBreedingPairs.get(0), BreedResultType.NO_PAIRS);
-            }
-        } else {
-            return new BreedResult(plantBreedingPairs.get(0), BreedResultType.FAIL);
+        if (seed1.equals(seed2)) {
+            // Two of the same plant always spread a copy, even when they could also breed a child
+            // (e.g. Darkness + Darkness can give a Spider). Before, such plants only spread on a lucky roll,
+            // while plants without a pair of their own spread every time.
+            return new BreedResult(plantBreedingPairs.get(0), BreedResultType.SPREAD_MUTATE);
         }
+        if (matchingPairs.isEmpty()) {
+            return new BreedResult(plantBreedingPairs.get(0), BreedResultType.NO_PAIRS);
+        }
+        return new BreedResult(plantBreedingPairs.get(0), BreedResultType.FAIL);
     }
 
     @Nonnull
@@ -105,6 +108,20 @@ public class Registry {
     @Nonnull
     public List<CultivationTree> getRegisteredTrees() {
         return registeredTrees;
+    }
+
+    /**
+     * @return A new, modifiable list of every breeding pair that the two plants form, in registration order
+     */
+    @Nonnull
+    public List<BreedingPair> getMatchingBreedingPairs(@Nonnull String seed1, @Nonnull String seed2) {
+        List<BreedingPair> matchingPairs = new ArrayList<>();
+        for (BreedingPair pair : plantBreedingPairs) {
+            if (pair.isBreedPossible(seed1, seed2)) {
+                matchingPairs.add(pair);
+            }
+        }
+        return matchingPairs;
     }
 
     @Nonnull

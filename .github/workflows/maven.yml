@@ -3,11 +3,14 @@ name: Java CI
 on:
   push:
     branches:
+      - main
       - master
       - dev
   pull_request:
     branches:
+      - main
       - master
+  workflow_dispatch:
 
 jobs:
   build:
@@ -23,3 +26,11 @@ jobs:
           cache: 'maven'
       - name: Build with Maven
         run: mvn package --file pom.xml
+      - name: Upload plugin jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: Cultivation
+          path: |
+            target/*.jar
+            !target/original-*.jar
+          if-no-files-found: error

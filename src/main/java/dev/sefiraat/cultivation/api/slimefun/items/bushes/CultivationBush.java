@@ -9,7 +9,6 @@ import dev.sefiraat.cultivation.api.slimefun.groups.CultivationGroups;
 import dev.sefiraat.cultivation.api.slimefun.items.CultivationFloraItem;
 import dev.sefiraat.cultivation.api.slimefun.plant.Growth;
 import dev.sefiraat.cultivation.implementation.slimefun.tools.TrimmingTool;
-import dev.sefiraat.sefilib.entity.display.DisplayInteractable;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
@@ -27,7 +26,7 @@ import java.util.List;
  * This class is used to define a Bush that will grow as a {@link CultivationFlora}
  */
 public abstract class CultivationBush extends CultivationFloraItem<CultivationBush>
-    implements CultivationFlora, CultivationTrimmable, CultivationBushHolder, DisplayInteractable {
+    implements CultivationFlora, CultivationTrimmable, CultivationBushHolder {
 
     @ParametersAreNonnullByDefault
     protected CultivationBush(SlimefunItemStack item, Growth growth) {
@@ -55,6 +54,7 @@ public abstract class CultivationBush extends CultivationFloraItem<CultivationBu
 
     @OverridingMethodsMustInvokeSuper
     protected void onBreak(@NotNull BlockBreakEvent event) {
+        event.setDropItems(false);
         removeBush(event.getBlock().getLocation());
     }
 

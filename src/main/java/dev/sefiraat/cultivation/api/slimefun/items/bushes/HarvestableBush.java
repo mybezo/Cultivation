@@ -9,7 +9,6 @@ import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.RandomizedSet;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
@@ -73,8 +72,10 @@ public class HarvestableBush extends CultivationBush implements CultivationHarve
     @Override
     public void whenPlaced(@NotNull BlockPlaceEvent event) {
         super.whenPlaced(event);
+        if (event.isCancelled()) {
+            return;
+        }
         addDisplayBush(event.getBlock().getLocation());
-        event.getBlock().setType(Material.AIR);
     }
 
     @Nonnull
@@ -97,15 +98,11 @@ public class HarvestableBush extends CultivationBush implements CultivationHarve
     @Override
     public void updateGrowthStage(@NotNull Block block, int growthStage) {
         // todo Fuck numbers
-        Location location = block.getLocation();
-        setAge(location, growthStage);
-        if (growthStage == 0) {
-            removeItems(location);
-        } else if (growthStage == 3) {
+        setDisplayBush(block.getLocation(), growthStage >= getMaxGrowthStages());
+        if (growthStage == 3) {
             ItemStack itemStack = getRandomItem();
             if (itemStack != null) {
                 nextDrop.put(block.getLocation(), itemStack);
-                addItemsToDisplay(block.getLocation(), itemStack.clone());
             }
         }
         StorageCacheUtils.setData(block.getLocation(), Keys.FLORA_GROWTH_STAGE, String.valueOf(growthStage));

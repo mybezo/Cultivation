@@ -17,7 +17,6 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.collections.Randomized
 import io.github.thebusybiscuit.slimefun4.libraries.dough.skins.PlayerHead;
 import io.papermc.lib.PaperLib;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -112,17 +111,12 @@ public class HarvestablePlant extends CultivationPlant implements CultivationHar
                 growthDisplay(block.getLocation());
             }
         } else if (growthStage == 1) {
-            if (!hasDisplayPlant(block)) {
-                addDisplayPlant(block.getLocation());
-            } else {
-                removeItems(block.getLocation());
-            }
-            block.setType(Material.AIR);
+            addDisplayPlant(block.getLocation());
         } else if (growthStage == 2) {
+            setDisplayPlant(block.getLocation(), true);
             ItemStack itemStack = getRandomItemWithDropModifier(block.getLocation());
             if (itemStack != null) {
                 nextDrop.put(block.getLocation(), itemStack);
-                addItemsToDisplay(block.getLocation(), itemStack.clone());
             }
         }
         StorageCacheUtils.setData(block.getLocation(), Keys.FLORA_GROWTH_STAGE, String.valueOf(growthStage));

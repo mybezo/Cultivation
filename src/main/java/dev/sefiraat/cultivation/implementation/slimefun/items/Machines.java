@@ -3,9 +3,12 @@ package dev.sefiraat.cultivation.implementation.slimefun.items;
 import dev.sefiraat.cultivation.Cultivation;
 import dev.sefiraat.cultivation.api.slimefun.groups.CultivationGroups;
 import dev.sefiraat.cultivation.implementation.slimefun.CultivationStacks;
+import dev.sefiraat.cultivation.implementation.slimefun.machines.AndroidFinishing;
 import dev.sefiraat.cultivation.implementation.slimefun.machines.CraftingKitchenMachine;
 import dev.sefiraat.cultivation.implementation.slimefun.machines.DoNothingKitchenObject;
 import dev.sefiraat.cultivation.implementation.slimefun.machines.GardenCloche;
+import dev.sefiraat.cultivation.implementation.slimefun.machines.GeneticRecombinator;
+import dev.sefiraat.cultivation.implementation.slimefun.machines.PlantBreeder;
 import dev.sefiraat.cultivation.implementation.slimefun.machines.PoweredKitchenMachineComplex;
 import dev.sefiraat.cultivation.implementation.slimefun.machines.PoweredKitchenMachineSimple;
 import dev.sefiraat.cultivation.implementation.slimefun.machines.RightClickKitchenMachine;
@@ -167,6 +170,40 @@ public final class Machines {
         DisplayGroupGenerators::generateFinishingCounter
     );
 
+    public static final GeneticRecombinator GENETIC_RECOMBINATOR = new GeneticRecombinator(
+        CultivationGroups.MACHINES,
+        CultivationStacks.GENETIC_RECOMBINATOR,
+        RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[]{
+            SlimefunItems.ELECTRIC_MOTOR, CultivationStacks.PLANT_ANALYSER, SlimefunItems.ELECTRIC_MOTOR,
+            null, SlimefunItems.NUCLEAR_REACTOR, null,
+            null, SlimefunItems.PROGRAMMABLE_ANDROID_FARMER, null
+        }
+    );
+
+    public static final PlantBreeder PROPAGATION = new PlantBreeder(
+        CultivationGroups.MACHINES,
+        CultivationStacks.PROPAGATION,
+        RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[]{
+            SlimefunItems.HEATING_COIL, CultivationStacks.SEED_PACK, SlimefunItems.HEATING_COIL,
+            null, CultivationStacks.PLANT_ANALYSER, null,
+            SlimefunItems.PROGRAMMABLE_ANDROID_FARMER, SlimefunItems.BASIC_CIRCUIT_BOARD, SlimefunItems.PROGRAMMABLE_ANDROID_FARMER
+        }
+    );
+
+    public static final AndroidFinishing ANDROID_FINISHING = new AndroidFinishing(
+        CultivationGroups.MACHINES,
+        CultivationStacks.ANDROID_FINISHING,
+        RecipeType.ENHANCED_CRAFTING_TABLE,
+        new ItemStack[]{
+            SlimefunItems.ELECTRIC_MOTOR, null, SlimefunItems.ELECTRIC_MOTOR,
+            SlimefunItems.HEATING_COIL, CultivationStacks.COUNTER_FINISHING, SlimefunItems.HEATING_COIL,
+            null, SlimefunItems.ANDROID_MEMORY_CORE, null
+        },
+        COUNTER_FINISHING
+    );
+
     public static void setup(Cultivation addon) {
         GARDEN_CLOCHE.register(addon);
         COUNTER_NOTHING.register(addon);
@@ -180,5 +217,8 @@ public final class Machines {
         COUNTER_FRYER.register(addon);
         COUNTER_GRILL.register(addon);
         COUNTER_FINISHING.register(addon);
+        GENETIC_RECOMBINATOR.register(addon);
+        PROPAGATION.register(addon);
+        ANDROID_FINISHING.register(addon);
     }
 }

@@ -551,7 +551,10 @@ public enum Skins {
     // https://minecraft-heads.com/custom-heads/food-drinks/43149-boiled-egg
     BOILED_EGG("a92a1b111324ff2ec1c150330486908176eeb35bc77543837e2f33acf7d007f1"),
     // https://minecraft-heads.com/custom-heads/food-drinks/23693-sugar-skull
-    SUGARED_SKULL("47225fc8f0e7d44bc5d87c92b30c842ff9392a1ee6cd06e40c2a91a3507126c3");
+    SUGARED_SKULL("47225fc8f0e7d44bc5d87c92b30c842ff9392a1ee6cd06e40c2a91a3507126c3"),
+    // Expansion
+    ANDROID_CHEF("b6f8c9b336b3f39c3230c9902ca0db94a30077e3bcb59e04f519d737bb213d2d"),
+    CULTIVATION_EXPANSION_MAIN("43176346c2509b1ecf1dee712606bf5c4bf1d33a567225e42b13ed993d67d622");
 
     // endregion
 
