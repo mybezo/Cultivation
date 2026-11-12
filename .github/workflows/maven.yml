@@ -25,7 +25,8 @@ jobs:
           java-version: 17
           cache: 'maven'
       - name: Build with Maven
-        run: mvn package --file pom.xml      - name: Upload plugin jar
+        run: mvn package --file pom.xml
+      - name: Upload plugin jar
         uses: actions/upload-artifact@v4
         with:
           name: Cultivation
