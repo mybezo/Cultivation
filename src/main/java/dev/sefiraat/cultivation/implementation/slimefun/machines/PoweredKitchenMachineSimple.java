@@ -104,16 +104,16 @@ public class PoweredKitchenMachineSimple extends KitchenRecipeMachineSimple impl
             public void init() {
                 ItemStack backgroundInput = new CustomItemStack(
                     Material.GREEN_STAINED_GLASS_PANE,
-                    Theme.PASSIVE.apply("输入")
+                    Theme.PASSIVE.apply("Input")
                 );
                 ItemStack backgroundOutput = new CustomItemStack(
                     Material.ORANGE_STAINED_GLASS_PANE,
-                    Theme.PASSIVE.apply("成品")
+                    Theme.PASSIVE.apply("Finished Product")
                 );
                 ItemStack cookButton = new CustomItemStack(
                     Material.RED_STAINED_GLASS_PANE,
-                    Theme.CLICK_INFO.apply("烹饪"),
-                    Theme.CLICK_INFO.asTitle("需要电力", powerRequirement)
+                    Theme.CLICK_INFO.apply("Cook"),
+                    Theme.CLICK_INFO.asTitle("Requires Power", powerRequirement)
                 );
                 drawBackground(BACKGROUND);
                 drawBackground(backgroundInput, INPUT_SLOT_BACKGROUND);
@@ -125,12 +125,12 @@ public class PoweredKitchenMachineSimple extends KitchenRecipeMachineSimple impl
             public void newInstance(@NotNull BlockMenu menu, @NotNull Block b) {
                 menu.addMenuClickHandler(COOK_SLOT, (p, slot, item, action) -> {
                     if (getCharge(menu.getLocation()) < powerRequirement) {
-                        p.sendMessage(Theme.ERROR.apply("电力不足."));
+                        p.sendMessage(Theme.ERROR.apply("Insufficient Power."));
                         return false;
                     }
                     ItemStack itemStack = menu.getItemInSlot(INPUT_SLOT);
                     if (itemStack == null || itemStack.getType().isAir()) {
-                        p.sendMessage(Theme.ERROR.apply("需要输入物品."));
+                        p.sendMessage(Theme.ERROR.apply("Input item required."));
                         return false;
                     }
                     SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
@@ -141,14 +141,14 @@ public class PoweredKitchenMachineSimple extends KitchenRecipeMachineSimple impl
 
                     ItemStack result = testRecipe(id);
                     if (result == null || !menu.fits(result, OUTPUT_SLOT)) {
-                        p.sendMessage(Theme.ERROR.apply("没有合适的配方."));
+                        p.sendMessage(Theme.ERROR.apply("No suitable recipe."));
                         return false;
                     }
 
                     menu.pushItem(result, OUTPUT_SLOT);
                     itemStack.setAmount(itemStack.getAmount() - 1);
                     removeCharge(menu.getLocation(), powerRequirement);
-                    p.sendMessage(Theme.SUCCESS.apply("美味新鲜出炉!"));
+                    p.sendMessage(Theme.SUCCESS.apply("Delicious and fresh from the oven!"));
                     return false;
                 });
             }

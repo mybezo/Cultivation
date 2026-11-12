@@ -104,7 +104,7 @@ public class GardenCloche extends SlimefunItem implements EnergyNetComponent {
             public void init() {
                 ItemStack backgroundInput = new CustomItemStack(
                     Material.GREEN_STAINED_GLASS_PANE,
-                    Theme.PASSIVE.apply("放入植物")
+                    Theme.PASSIVE.apply("Insert Plant")
                 );
                 drawBackground(BACKGROUND);
                 drawBackground(backgroundInput, PLANT_SLOT_BACKGROUND);

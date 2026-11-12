@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 public class Food extends SimpleSlimefunItem<ItemUseHandler> {
 
     private final Consumer<Player> eatingEffects;
-    private String eatingMessage = "好!你吃饱了!";
+    private String eatingMessage = "Good! You are full!";
 
     public Food(SlimefunItemStack item,
                 RecipeType recipeType,
@@ -43,7 +43,7 @@ public class Food extends SimpleSlimefunItem<ItemUseHandler> {
                 boolean lemonDrop = getId().equals(CultivationStacks.LEMON_DROP.getItemId());
                 if (Cooldowns.isOnCooldown(Keys.SATIATED, player) && !lemonDrop) {
                     player.sendMessage(Theme.WARNING.apply(
-                        "你现在还不能吃! 每10分钟才能吃一次!"));
+                        "You cannot eat yet! Can only eat once every 10 minutes!"));
                     return;
                 }
                 if (!lemonDrop) {

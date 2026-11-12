@@ -45,7 +45,7 @@ public final class Foods {
                 player.removePotionEffect(activePotionEffect.getType());
             }
         }
-    ).overrideEatingMessage("你感觉到调色盘被清理了吗？")
+    ).overrideEatingMessage("Did you feel the color palette being cleansed?")
         .buildRegister(Cultivation.getInstance());
 
     public static final Food PEANUT_BUTTER_JELLY_SANDWICH = new Food(
@@ -666,7 +666,7 @@ public final class Foods {
             player.setFireTicks(40);
             player.setFoodLevel(10);
         }
-    ).overrideEatingMessage("嗷!")
+    ).overrideEatingMessage("Ow!")
         .buildRegister(Cultivation.getInstance());
 
     public static final Food BAGEL_CREAM_CHEESE = new Food(

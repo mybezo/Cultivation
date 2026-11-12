@@ -134,11 +134,11 @@ public class PlantBreeder extends SlimefunItem
             @Override
             public void init() {
                 drawBackground(
-                    new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("放入植物")),
+                    new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Insert Plant")),
                     PLANT_BORDER
                 );
                 drawBackground(
-                    new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("放入基因花蜜")),
+                    new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Insert Genetic Nectar")),
                     NECTAR_BORDER
                 );
                 drawBackground(STATUS_BORDER);
@@ -190,7 +190,7 @@ public class PlantBreeder extends SlimefunItem
 
         if (!operation.isFinished()) {
             if (getCharge(block.getLocation()) < ENERGY_CONSUMPTION) {
-                setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("电力不足"));
+                setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("No Power"));
                 return;
             }
             removeCharge(block.getLocation(), ENERGY_CONSUMPTION);
@@ -205,7 +205,7 @@ public class PlantBreeder extends SlimefunItem
             processor.endOperation(block);
             menu.replaceExistingItem(STATUS_SLOT, idleStatus());
         } else {
-            setStatus(menu, Material.CHEST, Theme.WARNING.apply("输出栏已满"));
+            setStatus(menu, Material.CHEST, Theme.WARNING.apply("Output Full"));
         }
     }
 
@@ -221,15 +221,15 @@ public class PlantBreeder extends SlimefunItem
         if (!(SlimefunItem.getByItem(item1) instanceof CultivationPlant plant1)
             || !(SlimefunItem.getByItem(item2) instanceof CultivationPlant plant2)
         ) {
-            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("请放入农耕工艺的植物"));
+            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("Please insert Cultivation plants"));
             return;
         }
         if (!isNectar(nectar)) {
-            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("缺少基因花蜜"));
+            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("No Genetic Nectar"));
             return;
         }
         if (!hasEmptyOutputSlot(menu)) {
-            setStatus(menu, Material.CHEST, Theme.WARNING.apply("输出栏已满"));
+            setStatus(menu, Material.CHEST, Theme.WARNING.apply("Output Full"));
             return;
         }
 
@@ -243,7 +243,7 @@ public class PlantBreeder extends SlimefunItem
             child = plant1;
             crossBreed = false;
         } else {
-            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("这两株植物无法杂交"));
+            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("Incompatible plants"));
             return;
         }
 
@@ -302,7 +302,7 @@ public class PlantBreeder extends SlimefunItem
 
     @Nonnull
     private static ItemStack idleStatus() {
-        return new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, Theme.PASSIVE.apply("空闲"));
+        return new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Idle"));
     }
 
     private static void updateProgress(@Nonnull BlockMenu menu, @Nonnull BreedingOperation operation) {
@@ -313,8 +313,8 @@ public class PlantBreeder extends SlimefunItem
             : percent < 66 ? Material.YELLOW_STAINED_GLASS_PANE : Material.LIME_STAINED_GLASS_PANE;
         menu.replaceExistingItem(STATUS_SLOT, new CustomItemStack(
             glass,
-            Theme.SUCCESS.apply("杂交中... " + secondsLeft + "秒"),
-            Theme.PASSIVE.apply("进度: " + percent + "%")
+            Theme.SUCCESS.apply("Hybridizing... " + secondsLeft + "s"),
+            Theme.PASSIVE.apply("Progress: " + percent + "%")
         ));
     }
 

@@ -47,7 +47,7 @@ public class RecordOfBotanist extends SimpleSlimefunItem<ItemUseHandler> impleme
         }
 
         if (plantIds.isEmpty()) {
-            player.sendMessage(Theme.WARNING.apply("没有可以发现的植物！"));
+            player.sendMessage(Theme.WARNING.apply("No plants to discover!"));
             return;
         }
 
@@ -60,13 +60,13 @@ public class RecordOfBotanist extends SimpleSlimefunItem<ItemUseHandler> impleme
         }
 
         if (unlocked == 0) {
-            player.sendMessage(Theme.WARNING.apply("你已经发现了所有植物！"));
+            player.sendMessage(Theme.WARNING.apply("You have already discovered all plants!"));
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1, 1);
             return;
         }
 
-        player.sendMessage(Theme.SUCCESS.apply("植物图鉴已解锁！"));
-        player.sendMessage(Theme.CLICK_INFO.asTitle("新发现", unlocked + "/" + plantIds.size()));
+        player.sendMessage(Theme.SUCCESS.apply("Plant Codex Unlocked!"));
+        player.sendMessage(Theme.CLICK_INFO.asTitle("Discovered", unlocked + "/" + plantIds.size()));
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
         if (player.getGameMode() != GameMode.CREATIVE) {

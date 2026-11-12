@@ -113,15 +113,15 @@ public class AndroidFinishing extends SlimefunItem implements EnergyNetComponent
             public void init() {
                 drawBackground(BACKGROUND);
                 drawBackground(
-                    new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("放入配方材料")),
+                    new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Recipe Input")),
                     INPUT_BORDER
                 );
                 drawBackground(
-                    new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("放入机器人厨师")),
+                    new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Insert Android Chef")),
                     CHEF_BORDER
                 );
                 drawBackground(
-                    new CustomItemStack(Material.CYAN_STAINED_GLASS_PANE, Theme.PASSIVE.apply("输出")),
+                    new CustomItemStack(Material.CYAN_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Output")),
                     OUTPUT_BORDER
                 );
                 addItem(STATUS_SLOT, idleStatus(), ChestMenuUtils.getEmptyClickHandler());
@@ -161,11 +161,11 @@ public class AndroidFinishing extends SlimefunItem implements EnergyNetComponent
             return;
         }
         if (!isChef(menu.getItemInSlot(CHEF_SLOT))) {
-            setStatus(menu, Material.BARRIER, Theme.ERROR.apply("缺少机器人厨师"));
+            setStatus(menu, Material.BARRIER, Theme.ERROR.apply("Missing Android Chef"));
             return;
         }
         if (getCharge(block.getLocation()) < ENERGY_CONSUMPTION) {
-            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("电力不足"));
+            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("No Power"));
             return;
         }
 
@@ -180,7 +180,7 @@ public class AndroidFinishing extends SlimefunItem implements EnergyNetComponent
             hasItems = true;
             if (!KitchenObject.isBucket(itemStack) && itemStack.getAmount() < 2) {
                 // Keep the last item of each stack as the recipe template
-                setStatus(menu, Material.PAPER, Theme.WARNING.apply("等待材料补充"));
+                setStatus(menu, Material.PAPER, Theme.WARNING.apply("Waiting for Ingredients"));
                 return;
             }
         }
@@ -192,11 +192,11 @@ public class AndroidFinishing extends SlimefunItem implements EnergyNetComponent
         ItemStack result = targetCounter.testRecipe(grid);
         SlimefunItem resultItem = result == null ? null : SlimefunItem.getByItem(result);
         if (result == null || (resultItem != null && resultItem.isDisabled())) {
-            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("没有合适的配方"));
+            setStatus(menu, Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("Invalid Recipe"));
             return;
         }
         if (!menu.fits(result, OUTPUT_SLOTS)) {
-            setStatus(menu, Material.CHEST, Theme.WARNING.apply("输出栏已满"));
+            setStatus(menu, Material.CHEST, Theme.WARNING.apply("Output Full"));
             return;
         }
 
@@ -216,7 +216,7 @@ public class AndroidFinishing extends SlimefunItem implements EnergyNetComponent
             }
         }
         removeCharge(block.getLocation(), ENERGY_CONSUMPTION);
-        setStatus(menu, Material.LIME_STAINED_GLASS_PANE, Theme.SUCCESS.apply("厨师正在烹饪..."));
+        setStatus(menu, Material.LIME_STAINED_GLASS_PANE, Theme.SUCCESS.apply("Chef is Cooking..."));
     }
 
     private static boolean isChef(@Nullable ItemStack itemStack) {
@@ -229,6 +229,6 @@ public class AndroidFinishing extends SlimefunItem implements EnergyNetComponent
 
     @Nonnull
     private static ItemStack idleStatus() {
-        return new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, Theme.PASSIVE.apply("空闲"));
+        return new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Idle"));
     }
 }

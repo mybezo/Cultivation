@@ -53,7 +53,7 @@ public class CultivationCommands extends BaseCommand {
 
     @Default
     public void onDefault(CommandSender sender) {
-        sender.sendMessage(Theme.ERROR + "指令无效.");
+        sender.sendMessage(Theme.ERROR + "Invalid command.");
     }
 
     //TODO apply permissions
@@ -62,9 +62,9 @@ public class CultivationCommands extends BaseCommand {
     public void onPos1(CommandSender sender) {
         if (sender instanceof Player player) {
             Registry.getInstance().addPositionOne(player);
-            System.out.println("已设置位置1");
+            System.out.println("Position 1 set");
         } else {
-            sender.sendMessage(Theme.applyThemeToString(Theme.WARNING, "该指令只能由玩家执行"));
+            sender.sendMessage(Theme.applyThemeToString(Theme.WARNING, "This command can only be executed by a player"));
         }
     }
 
@@ -73,9 +73,9 @@ public class CultivationCommands extends BaseCommand {
     public void onPos2(CommandSender sender) {
         if (sender instanceof Player player) {
             Registry.getInstance().addPositionTwo(player);
-            System.out.println("已设置位置2");
+            System.out.println("Position 2 set");
         } else {
-            sender.sendMessage(Theme.applyThemeToString(Theme.WARNING, "该指令只能由玩家执行"));
+            sender.sendMessage(Theme.applyThemeToString(Theme.WARNING, "This command can only be executed by a player"));
         }
     }
 
@@ -156,7 +156,7 @@ public class CultivationCommands extends BaseCommand {
         } catch (IOException ioException) {
             Cultivation.logError(ioException.getMessage());
         }
-        System.out.println("已保存结构");
+        System.out.println("Structure saved");
     }
 
     @CommandCompletion("name")
@@ -248,32 +248,32 @@ public class CultivationCommands extends BaseCommand {
         if (sender instanceof Player player) {
             ItemStack itemStack = player.getInventory().getItemInMainHand();
             if (itemStack == null || itemStack.getType().isAir()) {
-                player.sendMessage(Theme.WARNING.apply("你必须拿着一个种子袋。"));
+                player.sendMessage(Theme.WARNING.apply("You must be holding a seed pack."));
                 return;
             }
 
             SlimefunItem slimefunItem = SlimefunItem.getByItem(itemStack);
             if (!(slimefunItem instanceof SeedPack pack)) {
-                player.sendMessage(Theme.WARNING.apply("你必须拿着一个种子袋。"));
+                player.sendMessage(Theme.WARNING.apply("You must be holding a seed pack."));
                 return;
             }
 
             ItemMeta itemMeta = itemStack.getItemMeta();
             SeedPackInstance instance = PersistentDataAPI.get(itemMeta, SeedPackDataType.KEY, SeedPackDataType.TYPE);
             if (instance == null) {
-                player.sendMessage(Theme.WARNING.apply("这个种子袋是空的！"));
+                player.sendMessage(Theme.WARNING.apply("This seed pack is empty!"));
                 return;
             }
 
             player.sendMessage("------------------------------------");
-            player.sendMessage("种子袋内容");
+            player.sendMessage("Seed Pack Contents");
             player.sendMessage("------------------------------------");
             for (Map.Entry<FloraLevelProfile, Integer> entry : instance.getAmountMap().entrySet()) {
                 FloraLevelProfile profile = entry.getKey();
                 String neatKey =
-                    " 等级：" + profile.getLevel() +
-                    " 速率：" + profile.getSpeed() +
-                    " 强度：" + profile.getStrength();
+                    " Level: " + profile.getLevel() +
+                    " Speed: " + profile.getSpeed() +
+                    " Strength: " + profile.getStrength();
                 player.sendMessage(Theme.CLICK_INFO.asTitle(neatKey, entry.getValue()));
             }
         }

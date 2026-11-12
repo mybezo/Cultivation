@@ -129,11 +129,11 @@ public class GeneticRecombinator extends SlimefunItem
             public void init() {
                 drawBackground(BACKGROUND);
                 drawBackground(
-                    new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("放入植物")),
+                    new CustomItemStack(Material.BLUE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Insert Plant")),
                     PLANT_SLOT_BACKGROUND
                 );
                 drawBackground(
-                    new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("放入基因花蜜")),
+                    new CustomItemStack(Material.ORANGE_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Insert Genetic Nectar")),
                     NECTAR_SLOT_BACKGROUND
                 );
                 addItem(STATUS_SLOT, idleStatus(), ChestMenuUtils.getEmptyClickHandler());
@@ -177,7 +177,7 @@ public class GeneticRecombinator extends SlimefunItem
         if (!operation.isFinished()) {
             if (getCharge(block.getLocation()) < ENERGY_CONSUMPTION) {
                 menu.replaceExistingItem(STATUS_SLOT, new CustomItemStack(
-                    Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("电力不足")
+                    Material.RED_STAINED_GLASS_PANE, Theme.ERROR.apply("No Power")
                 ));
                 return;
             }
@@ -204,7 +204,7 @@ public class GeneticRecombinator extends SlimefunItem
             menu.replaceExistingItem(STATUS_SLOT, idleStatus());
         } else {
             menu.replaceExistingItem(STATUS_SLOT, new CustomItemStack(
-                Material.CHEST, Theme.WARNING.apply("输出栏已满")
+                Material.CHEST, Theme.WARNING.apply("Output Full")
             ));
         }
     }
@@ -235,7 +235,7 @@ public class GeneticRecombinator extends SlimefunItem
 
     @Nonnull
     private static ItemStack idleStatus() {
-        return new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, Theme.PASSIVE.apply("空闲"));
+        return new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, Theme.PASSIVE.apply("Idle"));
     }
 
     private static void updateProgress(@Nonnull BlockMenu menu, @Nonnull MutationOperation operation) {
@@ -243,8 +243,8 @@ public class GeneticRecombinator extends SlimefunItem
         int secondsLeft = (int) Math.ceil(operation.getRemainingTicks() / 2.0);
         menu.replaceExistingItem(STATUS_SLOT, new CustomItemStack(
             Material.LIME_STAINED_GLASS_PANE,
-            Theme.SUCCESS.apply("突变中... " + secondsLeft + "秒"),
-            Theme.PASSIVE.apply("进度: " + percent + "%")
+            Theme.SUCCESS.apply("Mutating... " + secondsLeft + "s"),
+            Theme.PASSIVE.apply("Progress: " + percent + "%")
         ));
     }
 
