@@ -2,10 +2,10 @@ package dev.sefiraat.cultivation.api.slimefun.groups;
 
 import dev.sefiraat.cultivation.Cultivation;
 import dev.sefiraat.cultivation.api.utils.CultivationThemes;
+import dev.sefiraat.cultivation.implementation.slimefun.groups.CultivationMainGroup;
 import dev.sefiraat.cultivation.implementation.slimefun.groups.PlantCodexFlexGroup;
 import dev.sefiraat.cultivation.implementation.utils.Keys;
 import dev.sefiraat.sefilib.slimefun.itemgroup.DummyItemGroup;
-import dev.sefiraat.sefilib.slimefun.itemgroup.SimpleFlexGroup;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +19,7 @@ public final class CultivationGroups {
         throw new IllegalStateException("Utility class");
     }
 
-    public static final SimpleFlexGroup MAIN = new SimpleFlexGroup(
+    public static final CultivationMainGroup MAIN = new CultivationMainGroup(
         Cultivation.getInstance(),
         "Cultivation",
         Keys.newKey("main"),
