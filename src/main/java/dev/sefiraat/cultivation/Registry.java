@@ -78,15 +78,16 @@ public class Registry {
                 return new BreedResult(pair, result);
             }
         }
-        if (matchingPairs.isEmpty()) {
-            if (seed1.equals(seed2)) {
-                return new BreedResult(plantBreedingPairs.get(0), BreedResultType.SPREAD_MUTATE);
-            } else {
-                return new BreedResult(plantBreedingPairs.get(0), BreedResultType.NO_PAIRS);
-            }
-        } else {
-            return new BreedResult(plantBreedingPairs.get(0), BreedResultType.FAIL);
+        if (seed1.equals(seed2)) {
+            // Two of the same plant always spread a copy, even when they could also breed a child
+            // (e.g. Darkness + Darkness can give a Spider). Before, such plants only spread on a lucky roll,
+            // while plants without a pair of their own spread every time.
+            return new BreedResult(plantBreedingPairs.get(0), BreedResultType.SPREAD_MUTATE);
         }
+        if (matchingPairs.isEmpty()) {
+            return new BreedResult(plantBreedingPairs.get(0), BreedResultType.NO_PAIRS);
+        }
+        return new BreedResult(plantBreedingPairs.get(0), BreedResultType.FAIL);
     }
 
     @Nonnull
