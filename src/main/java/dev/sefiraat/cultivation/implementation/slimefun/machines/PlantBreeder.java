@@ -272,14 +272,16 @@ public class PlantBreeder extends SlimefunItem
         return Math.min(MAX_STAT, (int) Math.ceil((a + b) / 2.0));
     }
 
+    /**
+     * When the plants form several pairs (e.g. Coal + Earth gives Raw Iron or Raw Copper), one is picked at random.
+     */
     @Nullable
     private static BreedingPair findBreedingPair(@Nonnull CultivationPlant plant1, @Nonnull CultivationPlant plant2) {
-        for (BreedingPair pair : Registry.getInstance().getPlantBreedingPairs()) {
-            if (pair.isBreedPossible(plant1.getId(), plant2.getId())) {
-                return pair;
-            }
+        List<BreedingPair> pairs = Registry.getInstance().getMatchingBreedingPairs(plant1.getId(), plant2.getId());
+        if (pairs.isEmpty()) {
+            return null;
         }
-        return null;
+        return pairs.get(ThreadLocalRandom.current().nextInt(pairs.size()));
     }
 
     private static boolean hasEmptyOutputSlot(@Nonnull BlockMenu menu) {
