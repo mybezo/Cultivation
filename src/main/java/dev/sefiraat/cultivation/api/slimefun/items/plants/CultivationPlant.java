@@ -19,7 +19,7 @@ import dev.sefiraat.cultivation.api.slimefun.plant.PlantTheme;
 import dev.sefiraat.cultivation.api.utils.LevelType;
 import dev.sefiraat.cultivation.api.utils.StatisticUtils;
 import dev.sefiraat.cultivation.implementation.utils.Keys;
-import dev.sefiraat.sefilib.misc.ParticleUtils;
+import dev.sefiraat.cultivation.implementation.utils.ParticleUtils;
 import dev.sefiraat.sefilib.string.Theme;
 import dev.sefiraat.sefilib.world.LocationUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -268,7 +268,7 @@ public abstract class CultivationPlant extends CultivationFloraItem<CultivationP
     }
 
     protected void breedSuccess(@Nonnull Location location) {
-        ParticleUtils.displayParticleRandomly(LocationUtils.centre(location), Particle.SLIME, 0.5, 4);
+        ParticleUtils.displayParticleRandomly(LocationUtils.centre(location), Particle.ITEM_SLIME, 0.5, 4);
     }
 
     /**

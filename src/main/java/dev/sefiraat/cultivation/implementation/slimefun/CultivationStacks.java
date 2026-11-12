@@ -2680,7 +2680,7 @@ public final class CultivationStacks {
 
     public static final SlimefunItemStack DILL = Theme.themedSlimefunItemStack(
         "CLT_DILL",
-        new ItemStack(Material.GRASS),
+        new ItemStack(Material.SHORT_GRASS),
         CultivationThemes.PRODUCE,
         "Dill",
         "Just taste like grass to me. Why",

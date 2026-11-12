@@ -15,7 +15,7 @@ import dev.sefiraat.cultivation.api.utils.LevelType;
 import dev.sefiraat.cultivation.api.utils.StatisticUtils;
 import dev.sefiraat.cultivation.implementation.listeners.CustomPlacementListener;
 import dev.sefiraat.cultivation.implementation.utils.Keys;
-import dev.sefiraat.sefilib.misc.ParticleUtils;
+import dev.sefiraat.cultivation.implementation.utils.ParticleUtils;
 import dev.sefiraat.sefilib.string.Theme;
 import dev.sefiraat.sefilib.world.LocationUtils;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
