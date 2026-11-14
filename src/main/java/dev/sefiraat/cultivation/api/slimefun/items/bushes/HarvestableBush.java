@@ -89,6 +89,13 @@ public class HarvestableBush extends CultivationBush implements CultivationHarve
         return this;
     }
 
+    @Override
+    @OverridingMethodsMustInvokeSuper
+    public void clearCaches(@Nonnull Location location) {
+        super.clearCaches(location);
+        nextDrop.remove(location);
+    }
+
     @Nonnull
     @Override
     public RandomizedSet<ItemStack> getHarvestingResults() {

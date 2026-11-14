@@ -141,6 +141,15 @@ public abstract class CultivationFloraItem<T extends CultivationFloraItem<T>> ex
         ownerCache.put(location, uuid);
     }
 
+    /**
+     * Forgets everything cached in memory for the flora at this location.
+     * Must be called whenever the flora is removed, or the caches keep growing until the server restarts.
+     */
+    @OverridingMethodsMustInvokeSuper
+    public void clearCaches(@Nonnull Location location) {
+        ownerCache.remove(location);
+    }
+
     @ParametersAreNonnullByDefault
     protected void onTick(Block block, T flora, SlimefunBlockData data) {
         Location location = block.getLocation();
