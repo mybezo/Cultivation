@@ -6,7 +6,7 @@ import dev.sefiraat.cultivation.api.datatypes.instances.FloraLevelProfile;
 import dev.sefiraat.cultivation.api.datatypes.instances.SeedPackInstance;
 import dev.sefiraat.cultivation.api.slimefun.items.plants.CultivationPlant;
 import dev.sefiraat.cultivation.implementation.slimefun.tools.SeedPack;
-import dev.sefiraat.sefilib.misc.ParticleUtils;
+import dev.sefiraat.cultivation.implementation.utils.ParticleUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.data.persistent.PersistentDataAPI;
 import org.bukkit.entity.Item;

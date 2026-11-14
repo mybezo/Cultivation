@@ -179,11 +179,13 @@ public class CustomPlacementListener implements Listener {
             location.getWorld().dropItem(location, plant.getDroppedItemStack(location));
             plant.removeCropped(location);
             plant.removePlant(location);
+            plant.clearCaches(location);
             Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
             location.getBlock().setType(Material.AIR);
         } else if (slimefunItem instanceof CultivationBush bush) {
             location.getWorld().dropItem(location, bush.getItem().clone());
             bush.removeBush(location);
+            bush.clearCaches(location);
             Slimefun.getDatabaseManager().getBlockDataController().removeBlock(location);
             location.getBlock().setType(Material.AIR);
         }

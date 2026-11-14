@@ -122,6 +122,13 @@ public class HarvestablePlant extends CultivationPlant implements CultivationHar
         StorageCacheUtils.setData(block.getLocation(), Keys.FLORA_GROWTH_STAGE, String.valueOf(growthStage));
     }
 
+    @Override
+    @OverridingMethodsMustInvokeSuper
+    public void clearCaches(@Nonnull Location location) {
+        super.clearCaches(location);
+        nextDrop.remove(location);
+    }
+
     @Nonnull
     @Override
     public RandomizedSet<ItemStack> getHarvestingResults() {
