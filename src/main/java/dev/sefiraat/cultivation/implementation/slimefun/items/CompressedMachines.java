@@ -90,7 +90,8 @@ public final class CompressedMachines {
                 CultivationStacks.GARDEN_CLOCHE.getItemId() + "_X" + multiplier,
                 Material.GREEN_TERRACOTTA,
                 CultivationThemes.MACHINE,
-                "Garden Cloche " + ChatColor.GREEN + "(x" + multiplier + ")",
+                // The whole name is &a (overrides the theme colour), e.g. "Garden Cloche (8)"
+                ChatColor.GREEN + "Garden Cloche (" + multiplier + ")",
                 "Grows plants inside it automatically.",
                 "Each plant in the slot counts as one cloche.",
                 "",

@@ -56,7 +56,7 @@ You can automate the production of Cultivation Plants within the Garden Cloche, 
 
 ### Compressed Garden Cloche
 
-Several Garden Cloches combined into one, in four tiers: **x8, x16, x32 and x64** (`CLT_GARDEN_CLOCHE_X8` to `_X64`).
+Several Garden Cloches combined into one, in four tiers: **Garden Cloche (8), (16), (32) and (64)** (`CLT_GARDEN_CLOCHE_X8` to `_X64`).
 
 - Every plant in the plant slot counts as one cloche, up to the tier. A stack of 16 plants in an x64 cloche works like 16 cloches.
 - When the plant grows, the harvest is multiplied by that count, but only as far as the output has room, so nothing is lost. Energy (100 J per harvest per cloche) is only used for what is produced.
