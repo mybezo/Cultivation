@@ -2,11 +2,14 @@ package dev.sefiraat.cultivation.api.slimefun.groups;
 
 import dev.sefiraat.cultivation.Cultivation;
 import dev.sefiraat.cultivation.api.utils.CultivationThemes;
+import dev.sefiraat.cultivation.api.utils.Skins;
+import dev.sefiraat.cultivation.implementation.slimefun.groups.CompressedItemsGroup;
 import dev.sefiraat.cultivation.implementation.slimefun.groups.CultivationMainGroup;
 import dev.sefiraat.cultivation.implementation.slimefun.groups.PlantCodexFlexGroup;
 import dev.sefiraat.cultivation.implementation.utils.Keys;
 import dev.sefiraat.sefilib.slimefun.itemgroup.DummyItemGroup;
 import io.github.thebusybiscuit.slimefun4.libraries.dough.items.CustomItemStack;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -59,6 +62,25 @@ public final class CultivationGroups {
         new CustomItemStack(
             new ItemStack(Material.GLASS),
             CultivationThemes.MAIN.color("Machines")
+        )
+    );
+
+    public static final DummyItemGroup COMPRESSED_MACHINES = new DummyItemGroup(
+        Keys.newKey("compressed_machines"),
+        new CustomItemStack(
+            new ItemStack(Material.GLASS),
+            CultivationThemes.MAIN.color("Compressed Machine")
+        )
+    );
+
+    public static final CompressedItemsGroup COMPRESSED_ITEMS = new CompressedItemsGroup(
+        "Compressed Items",
+        Keys.newKey("compressed_items"),
+        new CustomItemStack(
+            Skins.COMPRESSED_ITEMS.getPlayerHead(),
+            CultivationThemes.MAIN.color("Compressed Items"),
+            "",
+            ChatColor.GRAY + "Multiple machines combined into one."
         )
     );
 
@@ -131,6 +153,8 @@ public final class CultivationGroups {
         CRAFTING.register(plugin);
         TOOLS.register(plugin);
         MACHINES.register(plugin);
+        COMPRESSED_MACHINES.register(plugin);
+        COMPRESSED_ITEMS.register(plugin);
 
         PLANTS.register(plugin);
         BUSHES.register(plugin);
@@ -149,5 +173,8 @@ public final class CultivationGroups {
         MAIN.addItemGroup(BY_PRODUCTS);
         MAIN.addItemGroup(FOODS);
         MAIN.addItemGroup(PLANT_CODEX);
+
+        COMPRESSED_ITEMS.addItemGroup(COMPRESSED_MACHINES);
+        MAIN.setCompressedItemsGroup(COMPRESSED_ITEMS);
     }
 }
