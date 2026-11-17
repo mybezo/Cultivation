@@ -54,6 +54,16 @@ There are a total of 90 plants to discover via breeding or, if you're struggling
 
 You can automate the production of Cultivation Plants within the Garden Cloche, a green terracotta block. While a little slower than manually harvested plants, it will produce constantly and allows Slimefun Cargo and Networks to pull out its produce.
 
+### Compressed Garden Cloche
+
+Several Garden Cloches combined into one, in four tiers: **Garden Cloche (8), (16), (32) and (64)** (`CLT_GARDEN_CLOCHE_X8` to `_X64`).
+
+- Every plant in the plant slot counts as one cloche, up to the tier. A stack of 16 plants in an x64 cloche works like 16 cloches.
+- When the plant grows, the harvest is multiplied by that count, but only as far as the output has room, so nothing is lost. Energy (100 J per harvest per cloche) is only used for what is produced.
+- Recipes in the Compressor: x8 = 8 Garden Cloches, x16 = 2 x8, x32 = 2 x16, x64 = 2 x32.
+- Found under the **Compressed Items** button (slot 40 of the main Cultivation menu). Only the highest enabled tier is listed; the lower tiers are still craftable.
+- Configured in `plugins/Cultivation/compressed.yml` (enable all, each tier, each machine). Disabling a tier also disables the tiers above it. Changes need a server restart.
+
 ## Cultivation Expansion
 
 Extra machines and items, found in the existing Machines, Crafting Materials and Tools categories.
