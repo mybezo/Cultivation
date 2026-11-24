@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun4.libraries.dough.protection.Interaction
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -196,6 +197,21 @@ public class GardenCloche extends SlimefunItem implements EnergyNetComponent, Re
             public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
                 if (flow == ItemTransportFlow.WITHDRAW) {
                     return OUTPUT_SLOTS;
+                }
+                return new int[]{PLANT_SLOT};
+            }
+
+            /**
+             * Cargo and networks can insert plants into the plant slot (only plants that can be harvested),
+             * and take the harvest from the output slots.
+             */
+            @Override
+            public int[] getSlotsAccessedByItemTransport(DirtyChestMenu menu, ItemTransportFlow flow, ItemStack item) {
+                if (flow == ItemTransportFlow.WITHDRAW) {
+                    return OUTPUT_SLOTS;
+                }
+                if (item != null && SlimefunItem.getByItem(item) instanceof HarvestablePlant) {
+                    return new int[]{PLANT_SLOT};
                 }
                 return new int[0];
             }
