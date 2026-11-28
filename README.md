@@ -117,6 +117,37 @@ Each food item has a custom effect when eaten. Most effects last for 10 whole mi
 
 Some foods have custom one-off effects that break this mold.
 
+## Configuration
+
+All files are in `plugins/Cultivation/`. Changes need a server restart; missing options are added automatically and existing values are kept.
+
+| File | What it configures |
+|---|---|
+| `config.yml` | Auto update and debug messages |
+| `compressed.yml` | The compressed Garden Cloches (enable all, each tier, each machine) |
+| `speed.yml` | The speed of the machines |
+
+### Machine speed (`speed.yml`)
+
+Every machine has a fixed base time and a speed (default `1`). **Real time = base time / speed**: `2` is twice as fast, `0.5` half as fast, decimals are allowed.
+
+```yaml
+CLT_GARDEN_CLOCHE: 1
+CLT_GENETIC_RECOMBINATOR: 1
+CLT_PROPAGATION: 1
+```
+
+| Machine | Base time | Max speed |
+|---|---|---|
+| Garden Cloche | No fixed time: every tick a plant has a chance to be harvested. The speed multiplies that chance, so the average time between harvests is divided by the speed (at most one harvest per tick). The compressed cloches use this speed too. | 1000 |
+| Genetic Recombinator | 15 s per mutation | 30 |
+| Propagation | 180 s (Strength 1) to 30 s (Strength 10) per breed | 60 |
+
+- Times are rounded to Slimefun ticks (default 0.5 s) and are never faster than one tick; the maximum speeds follow Slimefun's tick rate.
+- A speed above the maximum uses the maximum; 0, negative or invalid values use 1. Both are logged in the console.
+- The item lore always shows the base time, so items stay identical (stacking, cargo, networks).
+- Other machines, like the kitchen counters, work instantly and have no speed. How fast plants grow in the world is the `growth-rate` item setting in Slimefun's `Items.yml`.
+
 ## Building
 
 ```

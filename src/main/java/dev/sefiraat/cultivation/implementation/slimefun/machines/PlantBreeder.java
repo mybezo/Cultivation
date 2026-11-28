@@ -7,6 +7,7 @@ import dev.sefiraat.cultivation.api.datatypes.instances.FloraLevelProfile;
 import dev.sefiraat.cultivation.api.slimefun.items.plants.CultivationPlant;
 import dev.sefiraat.cultivation.api.slimefun.plant.BreedingPair;
 import dev.sefiraat.cultivation.implementation.slimefun.CultivationStacks;
+import dev.sefiraat.cultivation.implementation.utils.MachineSpeed;
 import dev.sefiraat.sefilib.string.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -69,10 +70,15 @@ public class PlantBreeder extends SlimefunItem
     private static final int MAX_STAT = 10;
 
     private final MachineProcessor<BreedingOperation> processor = new MachineProcessor<>(this);
+    // Ticks per breed for Strength 1 to 10 at the speed from speed.yml, calculated once
+    private final int[] processTicks = new int[MAX_STAT];
 
     @ParametersAreNonnullByDefault
     public PlantBreeder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+        for (int strength = 1; strength <= MAX_STAT; strength++) {
+            processTicks[strength - 1] = MachineSpeed.toTicks(MachineSpeed.PROPAGATION, getBaseSeconds(strength));
+        }
     }
 
     @Nonnull
@@ -258,14 +264,15 @@ public class PlantBreeder extends SlimefunItem
     }
 
     /**
-     * Strength 1 takes {@link #MAX_TIME_SECONDS}, strength 10 takes {@link #MIN_TIME_SECONDS}.
-     * Slimefun ticks twice a second.
+     * The base time at speed 1: Strength 1 takes {@link #MAX_TIME_SECONDS}, Strength 10 takes {@link #MIN_TIME_SECONDS}.
      */
-    private static int getProcessTicks(int strength) {
-        int clamped = Math.max(1, Math.min(MAX_STAT, strength));
+    private static double getBaseSeconds(int strength) {
         double step = (MAX_TIME_SECONDS - MIN_TIME_SECONDS) / (MAX_STAT - 1);
-        double seconds = MAX_TIME_SECONDS - (clamped - 1) * step;
-        return (int) (seconds * 2);
+        return MAX_TIME_SECONDS - (strength - 1) * step;
+    }
+
+    private int getProcessTicks(int strength) {
+        return processTicks[Math.max(1, Math.min(MAX_STAT, strength)) - 1];
     }
 
     private static int average(int a, int b) {
@@ -309,7 +316,7 @@ public class PlantBreeder extends SlimefunItem
 
     private static void updateProgress(@Nonnull BlockMenu menu, @Nonnull BreedingOperation operation) {
         int percent = (int) ((double) operation.getProgress() / operation.getTotalTicks() * 100);
-        int secondsLeft = (int) Math.ceil(operation.getRemainingTicks() / 2.0);
+        int secondsLeft = (int) Math.ceil(operation.getRemainingTicks() * MachineSpeed.getTickSeconds());
         Material glass = percent < 33
             ? Material.RED_STAINED_GLASS_PANE
             : percent < 66 ? Material.YELLOW_STAINED_GLASS_PANE : Material.LIME_STAINED_GLASS_PANE;

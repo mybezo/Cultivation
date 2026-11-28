@@ -4,6 +4,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import dev.sefiraat.cultivation.api.datatypes.instances.FloraLevelProfile;
 import dev.sefiraat.cultivation.api.slimefun.items.plants.HarvestablePlant;
+import dev.sefiraat.cultivation.implementation.utils.MachineSpeed;
 import dev.sefiraat.sefilib.string.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -59,6 +60,8 @@ public class GardenCloche extends SlimefunItem implements EnergyNetComponent, Re
     public static final int CAPACITY = 2500;
 
     private final int multiplier;
+    // Speed from speed.yml (CLT_GARDEN_CLOCHE, also used by the compressed cloches), multiplies the harvest chance
+    private final double speed;
 
     public GardenCloche(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         this(itemGroup, item, recipeType, recipe, 1);
@@ -73,6 +76,7 @@ public class GardenCloche extends SlimefunItem implements EnergyNetComponent, Re
     ) {
         super(itemGroup, item, recipeType, recipe);
         this.multiplier = Math.max(1, multiplier);
+        this.speed = MachineSpeed.getSpeed(MachineSpeed.GARDEN_CLOCHE);
     }
 
     /**
@@ -114,7 +118,8 @@ public class GardenCloche extends SlimefunItem implements EnergyNetComponent, Re
                             return;
                         }
                         FloraLevelProfile profile = FloraLevelProfile.fromItemStack(possiblePlant);
-                        double growthRate = plant.getGrowthRate(profile);
+                        // The speed multiplies the chance per tick; at most one harvest per tick
+                        double growthRate = Math.min(1, plant.getGrowthRate(profile) * speed);
                         double rand = ThreadLocalRandom.current().nextDouble();
                         if (rand < growthRate) {
                             ItemStack itemStack = plant.getRandomItemWithDropModifier(profile);
