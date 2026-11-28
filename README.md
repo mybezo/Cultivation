@@ -54,6 +54,16 @@ There are a total of 90 plants to discover via breeding or, if you're struggling
 
 You can automate the production of Cultivation Plants within the Garden Cloche, a green terracotta block. While a little slower than manually harvested plants, it will produce constantly and allows Slimefun Cargo and Networks to pull out its produce.
 
+### Compressed Garden Cloche
+
+Several Garden Cloches combined into one, in four tiers: **Garden Cloche (8), (16), (32) and (64)** (`CLT_GARDEN_CLOCHE_X8` to `_X64`).
+
+- Every plant in the plant slot counts as one cloche, up to the tier. A stack of 16 plants in an x64 cloche works like 16 cloches.
+- When the plant grows, the harvest is multiplied by that count, but only as far as the output has room, so nothing is lost. Energy (100 J per harvest per cloche) is only used for what is produced.
+- Recipes in the Compressor: x8 = 8 Garden Cloches, x16 = 2 x8, x32 = 2 x16, x64 = 2 x32.
+- Found under the **Compressed Items** button (slot 40 of the main Cultivation menu). Only the highest enabled tier is listed; the lower tiers are still craftable.
+- Configured in `plugins/Cultivation/compressed.yml` (enable all, each tier, each machine). Disabling a tier also disables the tiers above it. Changes need a server restart.
+
 ## Cultivation Expansion
 
 Extra machines and items, found in the existing Machines, Crafting Materials and Tools categories.
@@ -106,6 +116,37 @@ Then you can combine your by-products into a meal via:
 Each food item has a custom effect when eaten. Most effects last for 10 whole minutes, but do not allow you to eat again during said 10 mins.
 
 Some foods have custom one-off effects that break this mold.
+
+## Configuration
+
+All files are in `plugins/Cultivation/`. Changes need a server restart; missing options are added automatically and existing values are kept.
+
+| File | What it configures |
+|---|---|
+| `config.yml` | Auto update and debug messages |
+| `compressed.yml` | The compressed Garden Cloches (enable all, each tier, each machine) |
+| `speed.yml` | The speed of the machines |
+
+### Machine speed (`speed.yml`)
+
+Every machine has a fixed base time and a speed (default `1`). **Real time = base time / speed**: `2` is twice as fast, `0.5` half as fast, decimals are allowed.
+
+```yaml
+CLT_GARDEN_CLOCHE: 1
+CLT_GENETIC_RECOMBINATOR: 1
+CLT_PROPAGATION: 1
+```
+
+| Machine | Base time | Max speed |
+|---|---|---|
+| Garden Cloche | No fixed time: every tick a plant has a chance to be harvested. The speed multiplies that chance, so the average time between harvests is divided by the speed (at most one harvest per tick). The compressed cloches use this speed too. | 1000 |
+| Genetic Recombinator | 15 s per mutation | 30 |
+| Propagation | 180 s (Strength 1) to 30 s (Strength 10) per breed | 60 |
+
+- Times are rounded to Slimefun ticks (default 0.5 s) and are never faster than one tick; the maximum speeds follow Slimefun's tick rate.
+- A speed above the maximum uses the maximum; 0, negative or invalid values use 1. Both are logged in the console.
+- The item lore always shows the base time, so items stay identical (stacking, cargo, networks).
+- Other machines, like the kitchen counters, work instantly and have no speed. How fast plants grow in the world is the `growth-rate` item setting in Slimefun's `Items.yml`.
 
 ## Building
 

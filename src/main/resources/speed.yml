@@ -1,0 +1,32 @@
+# Machine speed
+# Every machine has a fixed base time. Speed 1 = the base time (same as before),
+# 2 = twice as fast, 0.5 = half as fast. Decimals are allowed (e.g. 1.5, 2.25).
+#
+# Real time = base time / speed
+#
+#   Genetic Recombinator   base 15 s per mutation                (max speed 30)
+#   Propagation            base 180 s (Strength 1) to 30 s (Strength 10)
+#                          per breed, every Strength is divided   (max speed 60)
+#   Garden Cloche          no fixed time: every tick a plant has a chance to be
+#                          harvested (its growth rate x its Level). The speed
+#                          multiplies that chance, so the average time between
+#                          harvests is divided by the speed. A plant never gives
+#                          more than 1 harvest per tick.         (max speed 1000)
+#                          Examples at speed 1, Level 1: Common 25 s,
+#                          Uncommon 50 s, Rare 62.5 s, Epic 250 s, Legend 500 s
+#                          (Level 10 is 10x faster).
+#
+# Compressed Garden Cloches (8 - 64) use the speed of CLT_GARDEN_CLOCHE.
+#
+# Machines run on Slimefun ticks (default 10 game ticks = 0.5 s), so times are
+# rounded to the nearest tick and are never faster than 1 tick.
+# The maximum speeds above are for the default tick; they follow Slimefun's tick rate.
+# A speed above the maximum uses the maximum (with a warning in the console).
+# 0, negative or invalid values use 1 (with a warning in the console).
+#
+# The item lore always shows the base time, the real speed comes from this file.
+# Changes need a server restart. Missing machines are added automatically with 1.
+
+CLT_GARDEN_CLOCHE: 1
+CLT_GENETIC_RECOMBINATOR: 1
+CLT_PROPAGATION: 1

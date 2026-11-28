@@ -3,7 +3,7 @@ package dev.sefiraat.cultivation.implementation.listeners;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import dev.sefiraat.cultivation.api.events.CultivationTreeGrowEvent;
 import dev.sefiraat.cultivation.api.slimefun.items.trees.CultivationTree;
-import dev.sefiraat.sefilib.misc.ParticleUtils;
+import dev.sefiraat.cultivation.implementation.utils.ParticleUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Bukkit;

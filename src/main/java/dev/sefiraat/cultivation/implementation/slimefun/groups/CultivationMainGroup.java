@@ -1,6 +1,7 @@
 package dev.sefiraat.cultivation.implementation.slimefun.groups;
 
 import dev.sefiraat.cultivation.api.utils.Skins;
+import dev.sefiraat.cultivation.implementation.slimefun.items.CompressedMachines;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
@@ -24,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,6 @@ public class CultivationMainGroup extends FlexItemGroup {
 
     public static final String GITHUB_URL = "https://github.com/mybezo/Cultivation";
 
-    private static final int PAGE_SIZE = 36;
     private static final int GUIDE_BACK = 1;
     private static final int EXPANSION_INFO = 4;
     private static final int GUIDE_SEARCH = 7;
@@ -44,18 +45,43 @@ public class CultivationMainGroup extends FlexItemGroup {
     private static final int PAGE_NEXT = 52;
     private static final int[] HEADER = new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8};
     private static final int[] FOOTER = new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53};
+    private static final int COMPRESSED_ITEMS = 40;
+    // The item group slots: rows 2 to 5, except the Compressed Items button
+    private static final int[] CONTENT = buildContentSlots();
+    private static final int PAGE_SIZE = CONTENT.length;
 
     @Nonnull
     private final JavaPlugin plugin;
     @Nonnull
     private final String name;
     private final List<ItemGroup> itemGroups = new ArrayList<>();
+    @Nullable
+    private ItemGroup compressedItemsGroup;
 
     @ParametersAreNonnullByDefault
     public CultivationMainGroup(JavaPlugin plugin, String name, NamespacedKey key, ItemStack item) {
         super(key, item);
         this.plugin = plugin;
         this.name = name;
+    }
+
+    private static int[] buildContentSlots() {
+        int[] slots = new int[35];
+        int index = 0;
+        for (int slot = 9; slot < 45; slot++) {
+            if (slot != COMPRESSED_ITEMS) {
+                slots[index++] = slot;
+            }
+        }
+        return slots;
+    }
+
+    /**
+     * Sets the group opened by the "Compressed Items" button (slot 40).
+     * The button is only shown when compressed items are registered.
+     */
+    public void setCompressedItemsGroup(@Nullable ItemGroup compressedItemsGroup) {
+        this.compressedItemsGroup = compressedItemsGroup;
     }
 
     @Nonnull
@@ -96,7 +122,7 @@ public class CultivationMainGroup extends FlexItemGroup {
         applyFooter(player, profile, mode, menu, page, totalPages);
 
         for (int i = 0; i < PAGE_SIZE; i++) {
-            int slot = 9 + i;
+            int slot = CONTENT[i];
             int index = start + i;
             if (index >= end) {
                 menu.replaceExistingItem(slot, null);
@@ -111,6 +137,24 @@ public class CultivationMainGroup extends FlexItemGroup {
                 return false;
             });
         }
+
+        applyCompressedItems(player, profile, mode, menu, page);
+    }
+
+    @ParametersAreNonnullByDefault
+    private void applyCompressedItems(Player player, PlayerProfile profile, SlimefunGuideMode mode, ChestMenu menu, int page) {
+        ItemGroup group = compressedItemsGroup;
+        if (group == null || !CompressedMachines.hasAny()) {
+            menu.replaceExistingItem(COMPRESSED_ITEMS, null);
+            menu.addMenuClickHandler(COMPRESSED_ITEMS, ChestMenuUtils.getEmptyClickHandler());
+            return;
+        }
+        menu.replaceExistingItem(COMPRESSED_ITEMS, group.getItem(player));
+        menu.addMenuClickHandler(COMPRESSED_ITEMS, (p, s, item, action) -> {
+            profile.getGuideHistory().add(this, page);
+            SlimefunGuide.openItemGroup(profile, group, mode, 1);
+            return false;
+        });
     }
 
     @ParametersAreNonnullByDefault

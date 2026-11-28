@@ -11,7 +11,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNullableByDefault;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public interface CultivationLevelProfileHolder {
 
@@ -24,16 +23,18 @@ public interface CultivationLevelProfileHolder {
 
     @Nonnull
     default FloraLevelProfile getLevelProfile(@Nonnull Location location) {
-        return Objects.requireNonNullElseGet(
-            PROFILE_MAP.get(location),
-            () -> {
-                String levelString = StorageCacheUtils.getData(location, FloraLevelProfile.BS_KEY_LEVEL);
-                String speedString = StorageCacheUtils.getData(location, FloraLevelProfile.BS_KEY_SPEED);
-                String strengthString = StorageCacheUtils.getData(location, FloraLevelProfile.BS_KEY_STRENGTH);
-                String analysedString = StorageCacheUtils.getData(location, FloraLevelProfile.BS_KEY_ANALYZED);
-                return getLevelProfile(levelString, speedString, strengthString, analysedString);
-            }
-        );
+        FloraLevelProfile cached = PROFILE_MAP.get(location);
+        if (cached != null) {
+            return cached;
+        }
+        // Not cached yet (e.g. after a restart): read it from the block data once and keep it
+        String levelString = StorageCacheUtils.getData(location, FloraLevelProfile.BS_KEY_LEVEL);
+        String speedString = StorageCacheUtils.getData(location, FloraLevelProfile.BS_KEY_SPEED);
+        String strengthString = StorageCacheUtils.getData(location, FloraLevelProfile.BS_KEY_STRENGTH);
+        String analysedString = StorageCacheUtils.getData(location, FloraLevelProfile.BS_KEY_ANALYZED);
+        FloraLevelProfile profile = getLevelProfile(levelString, speedString, strengthString, analysedString);
+        PROFILE_MAP.put(location, profile);
+        return profile;
     }
 
     @Nonnull

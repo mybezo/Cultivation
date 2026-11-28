@@ -1,6 +1,8 @@
 package dev.sefiraat.cultivation;
 
 import dev.sefiraat.cultivation.implementation.slimefun.items.Bushes;
+import dev.sefiraat.cultivation.implementation.slimefun.items.CompressedMachines;
+import dev.sefiraat.cultivation.implementation.utils.MachineSpeed;
 import dev.sefiraat.cultivation.implementation.slimefun.items.Crafting;
 import dev.sefiraat.cultivation.implementation.slimefun.items.Foods;
 import dev.sefiraat.cultivation.implementation.slimefun.items.Ingredients;
@@ -74,6 +76,8 @@ public class Cultivation extends JavaPlugin implements SlimefunAddon {
         this.displayGroupManager = new DisplayGroupManager(this);
         this.registry = new Registry();
 
+        // Machine speeds must be known before the machines are created
+        MachineSpeed.load(this);
         setupItems();
         setupStats();
     }
@@ -88,6 +92,7 @@ public class Cultivation extends JavaPlugin implements SlimefunAddon {
         Products.setup(this);
         Ingredients.setup(this);
         Foods.setup(this);
+        CompressedMachines.setup(this);
 
         // wiki
         WikiUtils.setupJson(this);

@@ -5,6 +5,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import dev.sefiraat.cultivation.api.datatypes.instances.FloraLevelProfile;
 import dev.sefiraat.cultivation.api.slimefun.items.plants.CultivationPlant;
 import dev.sefiraat.cultivation.implementation.slimefun.CultivationStacks;
+import dev.sefiraat.cultivation.implementation.utils.MachineSpeed;
 import dev.sefiraat.sefilib.string.Theme;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -59,14 +60,17 @@ public class GeneticRecombinator extends SlimefunItem
     private static final int[] PLANT_SLOT_BACKGROUND = new int[]{0, 1, 2, 9, 11, 18, 19, 20};
     private static final int[] NECTAR_SLOT_BACKGROUND = new int[]{6, 7, 8, 15, 17, 24, 25, 26};
     private static final int ENERGY_CONSUMPTION = 500;
-    private static final int PROCESS_TICKS = 30;
+    // Base time of one mutation at speed 1, see speed.yml
+    private static final double BASE_SECONDS = 15;
     private static final int MAX_STAT = 10;
 
     private final MachineProcessor<MutationOperation> processor = new MachineProcessor<>(this);
+    private final int processTicks;
 
     @ParametersAreNonnullByDefault
     public GeneticRecombinator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
+        this.processTicks = MachineSpeed.toTicks(MachineSpeed.GENETIC_RECOMBINATOR, BASE_SECONDS);
     }
 
     @Nonnull
@@ -193,7 +197,7 @@ public class GeneticRecombinator extends SlimefunItem
             // Keep mutating while nectar is available
             nectar.setAmount(nectar.getAmount() - 1);
             processor.endOperation(block);
-            processor.startOperation(block, new MutationOperation(PROCESS_TICKS, operation.getPlant(), mutated));
+            processor.startOperation(block, new MutationOperation(processTicks, operation.getPlant(), mutated));
             return;
         }
 
@@ -222,7 +226,7 @@ public class GeneticRecombinator extends SlimefunItem
             return;
         }
         input.setAmount(input.getAmount() - 1);
-        processor.startOperation(block, new MutationOperation(PROCESS_TICKS, plant, profile));
+        processor.startOperation(block, new MutationOperation(processTicks, plant, profile));
     }
 
     private static boolean isNectar(@Nullable ItemStack itemStack) {
@@ -240,7 +244,7 @@ public class GeneticRecombinator extends SlimefunItem
 
     private static void updateProgress(@Nonnull BlockMenu menu, @Nonnull MutationOperation operation) {
         int percent = (int) ((double) operation.getProgress() / operation.getTotalTicks() * 100);
-        int secondsLeft = (int) Math.ceil(operation.getRemainingTicks() / 2.0);
+        int secondsLeft = (int) Math.ceil(operation.getRemainingTicks() * MachineSpeed.getTickSeconds());
         menu.replaceExistingItem(STATUS_SLOT, new CustomItemStack(
             Material.LIME_STAINED_GLASS_PANE,
             Theme.SUCCESS.apply("Mutating... " + secondsLeft + "s"),
